@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "nodemon ./server/server",
+    "dev": "set DEBUG=app:database,app:main,app:connection,app:fech-data && nodemon ./server/server",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
