@@ -17,4 +17,8 @@ module.exports = class {
     }
     next();
   }
+
+  response({ res, code = 200, data = {}, message = null, isSuccess = true }) {
+    res.status(code).json({ message, data, isSuccess });
+  }
 };
