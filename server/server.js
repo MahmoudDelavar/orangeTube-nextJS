@@ -5,6 +5,8 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 const server = express();
 //=================================================
+const router = require("./routes");
+//=================================================
 
 //----------------Logs config----------------
 const debug = require("debug")("app:main");
@@ -13,6 +15,7 @@ const connDebug = require("debug")("app:connection");
 const fechDebug = require("debug")("app:fech-data");
 //=================================================
 const { dev_phase, pro_phase } = require("../next.config");
+server.use(express.json({ extended: true }));
 
 app
   .prepare()
@@ -20,6 +23,8 @@ app
     server.get("*", (req, res) => {
       return handle(req, res);
     });
+
+    server.use("/api", router);
 
     server.listen(dev_phase.port, (err) => {
       if (err) throw err;
