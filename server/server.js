@@ -4,6 +4,7 @@ const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
 const server = express();
+const mongoose = require("mongoose");
 //=================================================
 const router = require("./routes");
 //=================================================
@@ -24,8 +25,16 @@ app
       return handle(req, res);
     });
 
+    //-----------handle all routes-----------
     server.use("/api", router);
 
+    //---------connecting to database---------
+    mongoose
+      .connect(dev_phase.db_Address)
+      .then(() => dbDebug("Connected to Database"))
+      .catch((err) => dbDebug("Cant be Connetc:", err));
+
+    //--------------runing serve--------------
     server.listen(dev_phase.port, (err) => {
       if (err) throw err;
       connDebug(` > Server Ready on http://localhost:${dev_phase.port}`);

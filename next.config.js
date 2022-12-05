@@ -7,6 +7,7 @@ const nextConfig = {
   dev_phase: {
     phase: "development",
     port: 3000,
+    db_Address: "mongodb://localhost:27017/orangetube2",
   },
 
   //--Production
