@@ -1,0 +1,31 @@
+.main {
+  /* background: #0f2027; 
+  background: -webkit-linear-gradient(
+    to right,
+    #2c5364,
+    #203a43,
+    #0f2027
+  ); 
+  background: linear-gradient(
+    to right,
+    #2c5364,
+    #203a43,
+    #0f2027
+  ); */
+  background-color: rgb(199, 221, 221);
+}
+
+.formBox {
+  direction: rtl;
+  margin-top: 20px;
+  padding-top: 15px;
+  background-color: blanchedalmond;
+  height: 500px;
+}
+
+.avatarInput {
+  opacity: 0;
+  width: 0.1px;
+  height: 0.1px;
+  z-index: -1;
+}
