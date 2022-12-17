@@ -20,4 +20,6 @@ router.post(
   controller.login
 );
 
+router.post("/loadAvatar", controller.loadAvatar);
+
 module.exports = router;

@@ -1,5 +1,5 @@
 import styles from "../../styles/register.module.css";
-import { Col, Row, Container, Form, Button } from "react-bootstrap";
+import { Col, Row, Container, Form, Button, Spinner } from "react-bootstrap";
 import {
   BsFillPersonFill,
   BsFillKeyFill,
@@ -8,41 +8,68 @@ import {
 import { AiFillPicture, AiFillPlusSquare } from "react-icons/ai";
 import FormInput from "../../components/util/inputs/form-input";
 import { useState } from "react";
+import { dev_phase } from "../../next.config";
+import axios from "axios";
+import Image from "next/image";
 //=====================================
 
 const Register = () => {
-  //-----------------states-----------------
-  const [avatar, setAvatar] = useState(null);
+  //-----------------states and initional variables-----------------
+  const url = dev_phase.fechUrl;
+  const [avatarPath, setAvatarPath] = useState("");
+  const [avatarName, setAvatarName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState(false);
 
   //-----------Handle submit Form-----------
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const form = new FormData(e.target);
     const userName = form.get("userName");
     const email = form.get("email");
     const password = form.get("password");
 
-    const info = {
+    const userInfo = {
       userName,
       email,
       password,
     };
-    console.log("submit form", info);
+    console.log("input validation ", userInfo);
   };
 
   //------------load user avatar------------
-  const loadAvatar = (e) => {
-    const avatar = e.target.files[0];
-    console.log("avatar:", avatar);
+  const loadAvatar = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const form = new FormData();
+
+    const config = {
+      header: { "content-type": "multipart-data" },
+    };
+
+    form.append("file", e.target.files[0]);
+
+    axios
+      .post(`${url}/api/auth/loadAvatar`, form, config)
+      .then((res) => {
+        setAvatarPath(res.data.data.filePath);
+        setAvatarName(res.data.data.fileName);
+        setIsLoading(false);
+      })
+      .catch((err) => console.log(err));
   };
   //----------------------------------------
+
   return (
     <>
       <Container>
         <Row>
           <Col xxl={6} xl={8} lg={10} md={11} className={styles.formBox}>
-            <Form onSubmit={handleSubmit}>
+            <Form
+              onSubmit={handleSubmit}
+              encType="multipart/form-data"
+              method="post"
+            >
               <FormInput
                 type={"text"}
                 name={"userName"}
@@ -68,7 +95,7 @@ const Register = () => {
                 icon={<BsFillKeyFill />}
               />
 
-              <Row className="align-items-start text-center">
+              <Row className="align-items-center text-center">
                 <Col>
                   <Form.Label htmlFor="avatar">
                     <AiFillPlusSquare size={100} />
@@ -83,14 +110,22 @@ const Register = () => {
                   />
                 </Col>
                 <Col>
-                  {avatar ? (
-                    <> picture</>
-                  ) : (
-                    <>
-                      <AiFillPicture size={100} />
-                      <p>پیش نمایش</p>
-                    </>
+                  {avatarPath !== "" && (
+                    <Image
+                      src={`/uploads/userAvatar/${avatarName}`}
+                      width={100}
+                      height={100}
+                      alt="faild loading"
+                    />
                   )}
+                  {avatarPath == "" &&
+                    (isLoading ? (
+                      <Spinner animation="border" variant="info" />
+                    ) : (
+                      <>
+                        <AiFillPicture size={100} /> <p>پیش نمایش</p>
+                      </>
+                    ))}
                 </Col>
               </Row>
 

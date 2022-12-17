@@ -18,6 +18,13 @@ const fechDebug = require("debug")("app:fech-data");
 const { dev_phase, pro_phase } = require("../next.config");
 server.use(express.json({ extended: true }));
 
+server.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Headers", "*");
+  res.setHeader("Access-Control-Allow-Methods", "*");
+  next();
+});
+
 app
   .prepare()
   .then(() => {

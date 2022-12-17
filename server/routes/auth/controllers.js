@@ -3,9 +3,35 @@ const controller = require("../controller");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { dev_phase } = require("../../../next.config");
+const multer = require("multer");
+const debug = require("debug")("app:main");
+
 //====================================
 
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./public/uploads/userAvatar");
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, file.fieldname + "-" + uniqueSuffix);
+  },
+  fileFilter: (req, file, cb) => {
+    const ext = path.extname(file.originalname + "loaded");
+    if (ext !== ".jpg" || ".png") {
+      return cb(res.status(400).send("only jpg or png allowed "), false);
+    }
+    cb(null, true);
+  },
+});
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: "5mb" },
+}).single("file");
+//-----------------------------------------------------
+
 module.exports = new (class extends controller {
+  //------------------------------Register------------------------------
   async register(req, res) {
     let user = await this.User.findOne({ email: req.body.email });
     if (user) {
@@ -35,7 +61,7 @@ module.exports = new (class extends controller {
       message: "ثبت نام با موفقیت انجام شد",
     });
   }
-
+  //------------------------------Login------------------------------
   async login(req, res) {
     let user = await this.User.findOne({ email: req.body.email });
     if (!user) {
@@ -65,6 +91,30 @@ module.exports = new (class extends controller {
       isSuccess: true,
       message: "خوش آمدید",
       data: token,
+    });
+  }
+
+  //-------------------------Load User Avatar-------------------------
+  async loadAvatar(req, res) {
+    upload(req, res, (err) => {
+      if (err) {
+        return this.response({
+          res,
+          code: 400,
+          data: null,
+          isSuccess: false,
+          message: ` save failde:${err}`,
+        });
+      }
+      return this.response({
+        res,
+        code: 201,
+        message: "loaded avatar",
+        data: {
+          filePath: res.req.file.path,
+          fileName: res.req.file.filename,
+        },
+      });
     });
   }
 })();
