@@ -1,5 +1,13 @@
 import styles from "../../styles/register.module.css";
-import { Col, Row, Container, Form, Button, Spinner } from "react-bootstrap";
+import {
+  Col,
+  Row,
+  Container,
+  Form,
+  Button,
+  Spinner,
+  Alert,
+} from "react-bootstrap";
 import {
   BsFillPersonFill,
   BsFillKeyFill,
@@ -11,30 +19,75 @@ import { useState } from "react";
 import { dev_phase } from "../../next.config";
 import axios from "axios";
 import Image from "next/image";
+import * as yup from "yup";
 //=====================================
 
 const Register = () => {
   //-----------------states and initional variables-----------------
-  const url = dev_phase.fechUrl;
+  const baseUrl = dev_phase.fechUrl;
   const [avatarPath, setAvatarPath] = useState("");
-  const [avatarName, setAvatarName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [errors, setErrors] = useState(false);
+  const [errors, setErrors] = useState([]);
+  const [message, setMessage] = useState("");
 
+  //-----------validation inputs-----------
+
+  let schema = yup.object().shape({
+    userName: yup.string().required("نام کاربری راوارد کنید "),
+    email: yup
+      .string()
+      .email("فرمت ایمیل صحیح نیست")
+      .required("ایمیل خود را وارد کنید "),
+    password: yup.string().min(6, "پسورد باید حداقل 6 کاراکتر باشد "),
+  });
+
+  const validate = async (userInfo) => {
+    try {
+      const result = await schema.validate(userInfo, { abortEarly: false });
+      setErrors([]);
+      return result;
+    } catch (err) {
+      setErrors(err.errors);
+    }
+  };
   //-----------Handle submit Form-----------
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const form = new FormData(e.target);
     const userName = form.get("userName");
     const email = form.get("email");
     const password = form.get("password");
+    const rePassword = form.get("re-password");
 
     const userInfo = {
       userName,
       email,
       password,
+      avatarPath,
     };
-    console.log("input validation ", userInfo);
+
+    const result = await validate(userInfo);
+
+    if (password === rePassword) {
+      if (result) {
+        let url = baseUrl + "/api/auth/register";
+        axios
+          .post(url, userInfo)
+          .then((res) => {
+            setMessage(res.data.message);
+            localStorage.setItem("token", res.data.data);
+
+            e.target.reset();
+            setTimeout(() => {
+              window.location = "/";
+            }, 2000);
+          })
+          .catch((err) => setErrors(["ایمیل قبلا ثبت شده است"]));
+      }
+    } else {
+      setErrors(["تکرار پسورد مطابقت ندارد "]);
+    }
   };
 
   //------------load user avatar------------
@@ -50,10 +103,10 @@ const Register = () => {
     form.append("file", e.target.files[0]);
 
     axios
-      .post(`${url}/api/auth/loadAvatar`, form, config)
+      .post(`${baseUrl}/api/auth/loadAvatar`, form, config)
       .then((res) => {
-        setAvatarPath(res.data.data.filePath);
-        setAvatarName(res.data.data.fileName);
+        let avatarPath = `/uploads/userAvatar/${res.data.data.fileName}`;
+        setAvatarPath(avatarPath);
         setIsLoading(false);
       })
       .catch((err) => console.log(err));
@@ -65,6 +118,26 @@ const Register = () => {
       <Container>
         <Row>
           <Col xxl={6} xl={8} lg={10} md={11} className={styles.formBox}>
+            {/*-----------errors message box-----------*/}
+            {errors.length > 0 && (
+              <Alert variant="danger">
+                <ul>
+                  {errors.map((err, index) => (
+                    <li key={index}> {err}</li>
+                  ))}
+                </ul>
+              </Alert>
+            )}
+
+            {/*-----------success message box-----------*/}
+            {message !== "" && (
+              <Alert variant="success">
+                <ul>
+                  <li>{message}</li>
+                </ul>
+              </Alert>
+            )}
+
             <Form
               onSubmit={handleSubmit}
               encType="multipart/form-data"
@@ -112,7 +185,7 @@ const Register = () => {
                 <Col>
                   {avatarPath !== "" && (
                     <Image
-                      src={`/uploads/userAvatar/${avatarName}`}
+                      src={avatarPath}
                       width={100}
                       height={100}
                       alt="faild loading"

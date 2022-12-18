@@ -42,23 +42,25 @@ module.exports = new (class extends controller {
         isSuccess: false,
       });
     }
+
     user = new this.User({
       userName: req.body.userName,
       email: req.body.email,
       password: req.body.password,
-      avatarPath: req.body.avatarPath,
+      avatarPath: req.body.avatarPath || "/uploads/userAvatar/user.png",
     });
 
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
 
     await user.save();
-
+    const token = jwt.sign({ _id: user._id }, dev_phase.jwt_key);
     this.response({
       res,
       code: 200,
       isSuccess: true,
       message: "ثبت نام با موفقیت انجام شد",
+      data: token,
     });
   }
   //------------------------------Login------------------------------
