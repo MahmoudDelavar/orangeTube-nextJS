@@ -8,7 +8,7 @@ const Layout = ({ children }) => {
     <>
       <Banner />
       <Container fluid>
-        <Row>
+        <Row className="justify-content-md-center">
           <Col xxl={12} xl={12} lg={12} md={12}>
             <Navbar />
           </Col>

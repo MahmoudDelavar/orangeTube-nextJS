@@ -1,10 +1,11 @@
 import Image from "next/image";
+import Link from "./costumLink";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
+
 //========================================================
 function Navigationbar() {
   return (
@@ -23,9 +24,10 @@ function Navigationbar() {
         <Navbar.Toggle aria-controls="titile" />
         <Navbar.Collapse id="titile">
           <Nav className="me-auto " style={{ maxHeight: "100px" }} navbarScroll>
-            <Nav.Link href="/">videos</Nav.Link>
-            <Nav.Link href="/sunscribtions">subscibetions</Nav.Link>
-            <Nav.Link href="/upload">upload</Nav.Link>
+            <Link href="/">videos</Link>
+            <Link href="/sunscribtions">subscibetions</Link>
+            <Link href="/upload">upload</Link>
+            <Link href="/auth/login">login</Link>
           </Nav>
           <Form className="d-flex">
             <Form.Control

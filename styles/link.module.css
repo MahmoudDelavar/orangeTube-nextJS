@@ -1,0 +1,12 @@
+.link {
+  text-decoration: none;
+  color: rgb(172, 172, 172);
+
+  padding: 5px;
+  border-radius: 15px;
+}
+
+.link:hover {
+  color: orange;
+  background-color: rgba(172, 172, 172, 0.151);
+}

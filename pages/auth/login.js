@@ -65,45 +65,41 @@ const Login = () => {
 
   return (
     <>
-      <Container>
-        <Row>
-          <Col xxl={6} xl={8} lg={10} md={11} className={styles.formBox}>
-            {/*---------Alert box---------*/}
-            <AuthAlerts
-              successMsg={successMsg}
-              errMsg={errMsg}
-              validationErr={validationErr}
-            />
+      <Col xxl={6} xl={8} lg={10} md={11} className={styles.formBox}>
+        {/*---------Alert box---------*/}
+        <AuthAlerts
+          successMsg={successMsg}
+          errMsg={errMsg}
+          validationErr={validationErr}
+        />
 
-            {/*----------------Form box----------------*/}
+        {/*----------------Form box----------------*/}
 
-            <Form
-              onSubmit={handleSubmit}
-              encType="multipart/form-data"
-              method="post"
-            >
-              <FormInput
-                type={"text"}
-                name={"email"}
-                text={"ایمیل"}
-                icon={<BsFillEnvelopeFill />}
-              />
-              <FormInput
-                type={"password"}
-                name={"password"}
-                text={"کلمه عبور"}
-                icon={<BsFillKeyFill />}
-              />
+        <Form
+          onSubmit={handleSubmit}
+          encType="multipart/form-data"
+          method="post"
+        >
+          <FormInput
+            type={"text"}
+            name={"email"}
+            text={"ایمیل"}
+            icon={<BsFillEnvelopeFill />}
+          />
+          <FormInput
+            type={"password"}
+            name={"password"}
+            text={"کلمه عبور"}
+            icon={<BsFillKeyFill />}
+          />
 
-              <div className="d-grid mt-2" gap={2}>
-                <Button variant="outline-primary" type="submit">
-                  ورود{" "}
-                </Button>
-              </div>
-            </Form>
-          </Col>
-        </Row>
-      </Container>
+          <div className="d-grid mt-2" gap={2}>
+            <Button variant="outline-primary" type="submit">
+              ورود{" "}
+            </Button>
+          </div>
+        </Form>
+      </Col>
     </>
   );
 };
