@@ -1,13 +1,5 @@
 import styles from "../../styles/register.module.css";
-import {
-  Col,
-  Row,
-  Container,
-  Form,
-  Button,
-  Spinner,
-  Alert,
-} from "react-bootstrap";
+import { Col, Row, Container, Form, Button, Spinner } from "react-bootstrap";
 import {
   BsFillPersonFill,
   BsFillKeyFill,
@@ -22,18 +14,19 @@ import Image from "next/image";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { fechRegister } from "../../state_management/slices/user-slices/register";
+import AuthAlerts from "../../components/util/views/auth-alerts";
+
 //=====================================
 
 const Register = () => {
   //-----------------states and initial variables-----------------
   const baseUrl = dev_phase.fechUrl;
   const dispatch = useDispatch();
-  const successMsg = useSelector((state) => state.register.message);
-  const errMsg = useSelector((state) => state.register.err);
+  const { successMsg, errMsg } = useSelector((state) => state.register);
 
   const [avatarPath, setAvatarPath] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [errors, setErrors] = useState([]);
+  const [validationErr, setValidationErr] = useState([]);
 
   //-----------validation inputs-----------
 
@@ -49,11 +42,11 @@ const Register = () => {
   const validate = async (userInfo) => {
     try {
       const result = await schema.validate(userInfo, { abortEarly: false });
-      setErrors([]);
+      setValidationErr([]);
 
       return result;
     } catch (err) {
-      setErrors(err.errors);
+      setValidationErr(err.errors);
     }
   };
   //-----------Handle submit Form-----------
@@ -80,7 +73,7 @@ const Register = () => {
         dispatch(fechRegister(userInfo));
       }
     } else {
-      setErrors(["تکرار پسورد مطابقت ندارد "]);
+      setValidationErr(["تکرار پسورد مطابقت ندارد "]);
     }
   };
 
@@ -112,30 +105,12 @@ const Register = () => {
       <Container>
         <Row>
           <Col xxl={6} xl={8} lg={10} md={11} className={styles.formBox}>
-            {/*---------validation errors box---------*/}
-            {errors.length > 0 && (
-              <Alert variant="danger">
-                <ul>
-                  {errors.map((err, index) => (
-                    <li key={index}> {err}</li>
-                  ))}
-                </ul>
-              </Alert>
-            )}
-
-            {/*-----------Backend errors box-----------*/}
-            {errMsg && (
-              <Alert variant="danger">
-                <p> {errMsg}</p>
-              </Alert>
-            )}
-
-            {/*-----------backend message box-----------*/}
-            {successMsg && (
-              <Alert variant="success">
-                <p>{successMsg}</p>
-              </Alert>
-            )}
+            {/*---------Alert box---------*/}
+            <AuthAlerts
+              successMsg={successMsg}
+              errMsg={errMsg}
+              validationErr={validationErr}
+            />
 
             {/*----------------Form box----------------*/}
             <Form

@@ -3,21 +3,25 @@ import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import FormInput from "../../components/util/inputs/form-input";
 import styles from "../../styles/register.module.css";
 import { dev_phase } from "../../next.config";
-import axios from "axios";
-
 import * as yup from "yup";
 import {
   BsFillPersonFill,
   BsFillKeyFill,
   BsFillEnvelopeFill,
 } from "react-icons/bs";
-//=====================================
+import { useDispatch, useSelector } from "react-redux";
+import { fechLogin } from "../../state_management/slices/user-slices/login";
+import AuthAlerts from "../../components/util/views/auth-alerts";
+
+//================================================================
 
 const Login = () => {
   //-----------------states and initial variables-----------------
   const baseUrl = dev_phase.fechUrl;
-  const [errors, setErrors] = useState([]);
-  const [message, setMessage] = useState("");
+  const dispatch = useDispatch();
+  const { successMsg, errMsg } = useSelector((state) => state.login);
+
+  const [validationErr, setValidationErr] = useState([]);
 
   //-----------validation inputs-----------
   let schema = yup.object().shape({
@@ -31,15 +35,14 @@ const Login = () => {
   const validate = async (userInfo) => {
     try {
       const result = await schema.validate(userInfo, { abortEarly: false });
-      setErrors([]);
+      setValidationErr([]);
       return result;
     } catch (err) {
-      setErrors(err.errors);
+      setValidationErr(err.errors);
     }
   };
 
   //-----------Handle submit Form-----------
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -55,19 +58,7 @@ const Login = () => {
     const result = await validate(userInfo);
 
     if (result) {
-      let url = baseUrl + "/api/auth/login";
-      axios
-        .post(url, userInfo)
-        .then((res) => {
-          setMessage(res.data.message);
-          localStorage.setItem("token", res.data.data);
-
-          e.target.reset();
-          setTimeout(() => {
-            window.location = "/";
-          }, 2000);
-        })
-        .catch((err) => setErrors(["ایمیل  یا پسورد صحیح نمی باشد"]));
+      dispatch(fechLogin(userInfo));
     }
   };
   //----------------------------------------
@@ -77,25 +68,14 @@ const Login = () => {
       <Container>
         <Row>
           <Col xxl={6} xl={8} lg={10} md={11} className={styles.formBox}>
-            {/*-----------errors message box-----------*/}
-            {errors.length > 0 && (
-              <Alert variant="danger">
-                <ul>
-                  {errors.map((err, index) => (
-                    <li key={index}> {err}</li>
-                  ))}
-                </ul>
-              </Alert>
-            )}
+            {/*---------Alert box---------*/}
+            <AuthAlerts
+              successMsg={successMsg}
+              errMsg={errMsg}
+              validationErr={validationErr}
+            />
 
-            {/*-----------success message box-----------*/}
-            {message !== "" && (
-              <Alert variant="success">
-                <ul>
-                  <li>{message}</li>
-                </ul>
-              </Alert>
-            )}
+            {/*----------------Form box----------------*/}
 
             <Form
               onSubmit={handleSubmit}

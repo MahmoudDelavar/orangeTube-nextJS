@@ -92,7 +92,7 @@ module.exports = new (class extends controller {
       code: 200,
       isSuccess: true,
       message: "خوش آمدید",
-      data: token,
+      data: { user, token },
     });
   }
 

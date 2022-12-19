@@ -8,42 +8,38 @@ const initialState = {
   successMsg: null,
   errMsg: null,
 };
-
 //-----------------------------------------------
-export const fechRegister = createAsyncThunk(
-  "register/api",
-  async (userInfo) => {
-    let url = `${dev_phase.fechUrl}/api/auth/register`;
-    const response = await axios.post(url, userInfo);
 
-    setTimeout(() => {
-      window.location = "/";
-    }, 2000);
+export const fechLogin = createAsyncThunk("login/api", async (userInfo) => {
+  let url = `${dev_phase.fechUrl}/api/auth/login`;
+  const response = await axios.post(url, userInfo);
 
-    return response;
-  }
-);
+  setTimeout(() => {
+    window.location = "/";
+  }, 2000);
 
+  return response;
+});
 //-----------------------------------------------
-const registerSlice = createSlice({
-  name: "register",
+const loginSlice = createSlice({
+  name: "login",
   initialState,
   extraReducers: {
-    [fechRegister.pending]: (state) => {
+    [fechLogin.pending]: (state) => {
       state.isLoading = true;
     },
-    [fechRegister.fulfilled]: (state, action) => {
+    [fechLogin.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.user = action.payload.data.data.user;
       state.successMsg = action.payload.data.message;
       state.errMsg = null;
       localStorage.setItem("token", action.payload.data.data.token);
     },
-    [fechRegister.rejected]: (state) => {
+    [fechLogin.rejected]: (state) => {
       state.isLoading = false;
-      state.errMsg = "ایمیل قبلا ثبت شده است";
+      state.errMsg = "ایمیل یا پسورد صحیح نیست";
     },
   },
 });
 
-export default registerSlice.reducer;
+export default loginSlice.reducer;
