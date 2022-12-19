@@ -1,5 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-export default store = configureStore({
-  reducer: {},
+import registerReducer from "../state_management/slices/user-slices/register";
+const store = configureStore({
+  reducer: {
+    register: registerReducer,
+  },
 });
+
+export default store;

@@ -20,15 +20,20 @@ import { dev_phase } from "../../next.config";
 import axios from "axios";
 import Image from "next/image";
 import * as yup from "yup";
+import { useDispatch, useSelector } from "react-redux";
+import { fechRegister } from "../../state_management/slices/user-slices/register";
 //=====================================
 
 const Register = () => {
-  //-----------------states and initional variables-----------------
+  //-----------------states and initial variables-----------------
   const baseUrl = dev_phase.fechUrl;
+  const dispatch = useDispatch();
+  const successMsg = useSelector((state) => state.register.message);
+  const errMsg = useSelector((state) => state.register.err);
+
   const [avatarPath, setAvatarPath] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState([]);
-  const [message, setMessage] = useState("");
 
   //-----------validation inputs-----------
 
@@ -45,6 +50,7 @@ const Register = () => {
     try {
       const result = await schema.validate(userInfo, { abortEarly: false });
       setErrors([]);
+
       return result;
     } catch (err) {
       setErrors(err.errors);
@@ -71,19 +77,7 @@ const Register = () => {
 
     if (password === rePassword) {
       if (result) {
-        let url = baseUrl + "/api/auth/register";
-        axios
-          .post(url, userInfo)
-          .then((res) => {
-            setMessage(res.data.message);
-            localStorage.setItem("token", res.data.data);
-
-            e.target.reset();
-            setTimeout(() => {
-              window.location = "/";
-            }, 2000);
-          })
-          .catch((err) => setErrors(["ایمیل قبلا ثبت شده است"]));
+        dispatch(fechRegister(userInfo));
       }
     } else {
       setErrors(["تکرار پسورد مطابقت ندارد "]);
@@ -118,7 +112,7 @@ const Register = () => {
       <Container>
         <Row>
           <Col xxl={6} xl={8} lg={10} md={11} className={styles.formBox}>
-            {/*-----------errors message box-----------*/}
+            {/*---------validation errors box---------*/}
             {errors.length > 0 && (
               <Alert variant="danger">
                 <ul>
@@ -129,15 +123,21 @@ const Register = () => {
               </Alert>
             )}
 
-            {/*-----------success message box-----------*/}
-            {message !== "" && (
-              <Alert variant="success">
-                <ul>
-                  <li>{message}</li>
-                </ul>
+            {/*-----------Backend errors box-----------*/}
+            {errMsg && (
+              <Alert variant="danger">
+                <p> {errMsg}</p>
               </Alert>
             )}
 
+            {/*-----------backend message box-----------*/}
+            {successMsg && (
+              <Alert variant="success">
+                <p>{successMsg}</p>
+              </Alert>
+            )}
+
+            {/*----------------Form box----------------*/}
             <Form
               onSubmit={handleSubmit}
               encType="multipart/form-data"
@@ -182,6 +182,7 @@ const Register = () => {
                     className={styles.avatarInput}
                   />
                 </Col>
+
                 <Col>
                   {avatarPath !== "" && (
                     <Image

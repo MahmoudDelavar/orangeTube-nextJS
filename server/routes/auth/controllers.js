@@ -60,7 +60,7 @@ module.exports = new (class extends controller {
       code: 200,
       isSuccess: true,
       message: "ثبت نام با موفقیت انجام شد",
-      data: token,
+      data: { user, token },
     });
   }
   //------------------------------Login------------------------------

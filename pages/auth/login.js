@@ -14,7 +14,7 @@ import {
 //=====================================
 
 const Login = () => {
-  //-----------------states and initional variables-----------------
+  //-----------------states and initial variables-----------------
   const baseUrl = dev_phase.fechUrl;
   const [errors, setErrors] = useState([]);
   const [message, setMessage] = useState("");
