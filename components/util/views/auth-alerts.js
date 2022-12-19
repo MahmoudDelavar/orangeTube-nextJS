@@ -4,7 +4,7 @@ import { Alert } from "react-bootstrap";
 const AuthAlerts = ({ successMsg, errMsg, validationErr }) => {
   return (
     <>
-      {/*---------validation errors box---------*/}
+      {/*---------validation errors ---------*/}
       {validationErr.length > 0 && (
         <Alert variant="danger">
           <ul>
@@ -15,21 +15,19 @@ const AuthAlerts = ({ successMsg, errMsg, validationErr }) => {
         </Alert>
       )}
 
-      {/*-----------Backend errors box-----------*/}
+      {/*-----------Backend errors -----------*/}
       {errMsg && (
         <Alert variant="danger">
           <p> {errMsg}</p>
         </Alert>
       )}
 
-      {/*-----------backend message box-----------*/}
+      {/*-----------backend message -----------*/}
       {successMsg && (
         <Alert variant="success">
           <p>{successMsg}</p>
         </Alert>
       )}
-
-      {/*----------------Form box----------------*/}
     </>
   );
 };
