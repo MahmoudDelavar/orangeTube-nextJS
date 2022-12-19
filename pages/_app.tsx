@@ -6,6 +6,9 @@ import { ThemeProvider } from "react-bootstrap";
 import Head from "next/head";
 import { Provider } from "react-redux";
 import store from "../state_management/store";
+import Layout from "../components/util/views/layout";
+import Navigationbar from "../components/util/views/nabar";
+
 //====================================================
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -16,7 +19,9 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
       <Provider store={store}>
         <ThemeProvider dir="rtl">
-          <Component {...pageProps} />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
         </ThemeProvider>
       </Provider>
     </>
