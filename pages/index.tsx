@@ -15,6 +15,8 @@ export default function Home() {
       <Container>
         <Row>
           <Col>
+            {" "}
+            <h1>home page</h1>
             <main className={styles.main}></main>{" "}
             <footer className={styles.footer}></footer>
           </Col>

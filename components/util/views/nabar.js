@@ -26,7 +26,7 @@ function Navigationbar() {
           <Nav className="me-auto " style={{ maxHeight: "100px" }} navbarScroll>
             <Link href="/">videos</Link>
             <Link href="/sunscribtions">subscibetions</Link>
-            <Link href="/upload">upload</Link>
+            <Link href="/video/upload">upload</Link>
             <Link href="/auth/login">login</Link>
           </Nav>
           <Form className="d-flex">

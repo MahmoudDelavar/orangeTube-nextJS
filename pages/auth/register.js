@@ -104,7 +104,7 @@ const Register = () => {
     <>
       <Container>
         <Row>
-          <Col xxl={6} xl={8} lg={10} md={11} className={styles.formBox}>
+          <Col xxl={6} xl={8} lg={10} md={11} className="formBox">
             {/*---------Alert box---------*/}
             <AuthAlerts
               successMsg={successMsg}
@@ -154,7 +154,7 @@ const Register = () => {
                     onChange={(e) => loadAvatar(e)}
                     id="avatar"
                     type="file"
-                    className={styles.avatarInput}
+                    className="fileInput"
                   />
                 </Col>
 

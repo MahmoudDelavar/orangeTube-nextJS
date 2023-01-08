@@ -37,7 +37,7 @@ app
 
     //---------connecting to database---------
     mongoose
-      .connect(dev_phase.db_Address)
+      .connect("mongodb://127.0.0.1/orangetube2")
       .then(() => dbDebug("Connected to Database"))
       .catch((err) => dbDebug("Cant be Connetc:", err));
 

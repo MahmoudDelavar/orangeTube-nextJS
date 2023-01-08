@@ -15,15 +15,7 @@
   background-color: rgb(199, 221, 221);
 }
 
-.formBox {
-  direction: rtl;
-  margin-top: 20px;
-  padding-top: 15px;
-  background-color: blanchedalmond;
-  height: 500px;
-}
-
-.avatarInput {
+.fileInput {
   opacity: 0;
   width: 0.1px;
   height: 0.1px;
