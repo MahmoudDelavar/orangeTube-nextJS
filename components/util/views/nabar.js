@@ -33,7 +33,7 @@ function Navigationbar() {
           <Image src="/logo64.png" alt="faild-logo" width={40} height={40} />
           <span style={{ color: "orange" }}> oreangetube.ir</span>
           <span> {"  "}</span>
-          {user ? (
+          {user.userName ? (
             <>
               <Image
                 src={user.avatarPath}
@@ -55,7 +55,12 @@ function Navigationbar() {
             <Link href="/">videos</Link>
             <Link href="/sunscribtions">subscibetions</Link>
             <Link href="/video/upload">upload</Link>
-            <Link href="/auth/login">login</Link>
+
+            {user.userName ? (
+              <Link href="/auth/logout">logout</Link>
+            ) : (
+              <Link href="/auth/login">login</Link>
+            )}
           </Nav>
           <Form className="d-flex">
             <Form.Control
