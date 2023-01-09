@@ -37,7 +37,7 @@ const userSlice = createSlice({
     },
     [fechMe.rejected]: (state, action) => {
       state.isLoading = false;
-      state.message = action.payload.data.message;
+      state.message = "not Loggined";
     },
   },
 });
