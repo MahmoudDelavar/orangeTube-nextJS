@@ -3,6 +3,9 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import Banner from "../components/util/views/banner";
 import { Container, Row, Col } from "react-bootstrap";
+
+import { fechMe } from "../state_management/slices/user-slices/userSlice";
+
 //==========================================================
 export default function Home() {
   return (

@@ -46,6 +46,7 @@ const Upload = () => {
           filePath: res.data.data.filePath,
           fileName: res.data.data.fileName,
         };
+
         //generate thumbnail  thumbnailFilePath, fileDuration
 
         let url = `${baseUrl}/api/video/thumbnail`;
@@ -54,14 +55,13 @@ const Upload = () => {
           .then((res) => {
             setThumbnail(res.data.data.thumbFliePath);
             setDuration(res.data.data.fileDuration);
-            console.log("video time", res.data.data.fileDuration);
-            console.log("thumbnailFilePath", res.data.data.thumbFliePath);
           })
           .catch((err) => console.log(err));
       })
       .catch((err) => console.log(err));
   };
-  //-----------Handle submit Form-----------
+
+  //-----------Handle submit Form (save video)-----------
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = new FormData(e.target);

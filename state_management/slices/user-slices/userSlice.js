@@ -7,8 +7,7 @@ import { dev_phase } from "../../../next.config";
 //----------------- initial data-----------------
 
 const initialState = {
-  user: {},
-  token: null,
+  userInfo: {},
   isLoading: false,
   message: null,
 };
@@ -16,11 +15,10 @@ const initialState = {
 const baseUrl = dev_phase.fechUrl;
 
 //------------------------------------------------
-export const fechUser = createAsyncThunk("user/fech", async (userInfo) => {
-  let url = `${baseUrl}/api/auth/register`;
-  const response = await axios.post(url, userInfo);
-  const { user, token } = response.data.data;
-  console.log(` FechUawer## user:${user} ansd token:${token}`);
+export const fechMe = createAsyncThunk("user/fech", async ({ token }) => {
+  let url = `${baseUrl}/api/auth/me`;
+  const response = await axios.post(url, { token });
+
   return response;
 });
 
@@ -29,16 +27,15 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   extraReducers: {
-    [fechUser.fulfilled]: (state, action) => {
-      state.token = action.payload.data.data.token;
-      state.user = action.payload.data.data.user;
+    [fechMe.fulfilled]: (state, action) => {
+      state.userInfo = action.payload.data.data.userInfo;
       state.isLoading = false;
       state.message = action.payload.data.message;
     },
-    [fechUser.pending]: (state) => {
+    [fechMe.pending]: (state) => {
       state.isLoading = true;
     },
-    [fechUser.rejected]: (state, action) => {
+    [fechMe.rejected]: (state, action) => {
       state.isLoading = false;
       state.message = action.payload.data.message;
     },

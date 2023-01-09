@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { dev_phase } = require("../../../next.config");
 const multer = require("multer");
+const { userInfo } = require("os");
 const debug = require("debug")("app:main");
 
 //====================================
@@ -118,5 +119,37 @@ module.exports = new (class extends controller {
         },
       });
     });
+  }
+
+  //------------------------- me -------------------------
+  async me(req, res) {
+    const token = req.body.token;
+    if (!token) {
+      this.response({
+        res,
+        code: 401,
+        isSuccess: false,
+        message: "access denied",
+      });
+    }
+    try {
+      const decoded = jwt.verify(token, dev_phase.jwt_key);
+      const user = await this.User.findById(decoded._id);
+      const userInfo = {
+        id: user._id,
+        userName: user.userName,
+        avatarPath: user.avatarPath,
+      };
+
+      this.response({
+        res,
+        isSuccess: true,
+        code: 200,
+        message: "loggined",
+        data: { userInfo },
+      });
+    } catch (ex) {
+      this.response({ res, code: 400, message: "invalid token" });
+    }
   }
 })();

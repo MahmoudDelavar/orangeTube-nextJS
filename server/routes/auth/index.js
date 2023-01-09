@@ -3,6 +3,8 @@ const controller = require("./controllers");
 const validation = require("./validation");
 const { registerValidator, login } = require("./validation");
 const { validationResult } = require("express-validator");
+const isLoggined = require("../../middlewares/isLoggined");
+
 //====================================
 const router = express.Router();
 
@@ -21,5 +23,7 @@ router.post(
 );
 
 router.post("/loadAvatar", controller.loadAvatar);
+
+router.post("/me", controller.me);
 
 module.exports = router;
