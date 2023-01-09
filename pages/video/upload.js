@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { dev_phase } from "../../next.config";
 import Image from "next/image";
+import Link from "../../components/util/views/costumLink";
 
 //===========================================
 const Upload = () => {
@@ -22,8 +23,9 @@ const Upload = () => {
   const [videoName, setVideoName] = useState("");
   const [duration, setDuration] = useState("");
   const [thumbnail, setThumbnail] = useState("");
-  const user = useSelector((state) => state.login.userName);
   const baseUrl = dev_phase.fechUrl;
+
+  const user = useSelector((state) => state.user.userInfo);
 
   //------------load video and gnerate thumbnail------------
   const loadVideo = async (e) => {
@@ -81,6 +83,15 @@ const Upload = () => {
     };
     console.log("videoInfo", videoInfo);
   };
+
+  if (!user.userName) {
+    return (
+      <>
+        برای بارگذاری ویدئو ، ابتدا به حساب کاربری خود{" "}
+        <Link href={"/auth/login"}>وارد</Link> شوید
+      </>
+    );
+  }
 
   return (
     <>
