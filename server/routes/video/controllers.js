@@ -63,16 +63,12 @@ module.exports = new (class extends controller {
   }
 
   //-----------------generate thumbnail-----------------
-
   async thumbnail(req, res) {
     ffmpeg.ffprobe(req.body.filePath, function (err, metadata) {
       fileDuration = metadata.format.duration;
-      console.log("fileDuration " + fileDuration);
     });
     ffmpeg(req.body.filePath)
       .on("filenames", function (filenames) {
-        console.log("req.body.filePath OONN" + req.body.filePath);
-        console.log("Will generate " + filenames.join(", "));
         thumbFliePath = "/uploads/thumbnails/" + filenames[0];
       })
       .on("end", () => {
@@ -91,5 +87,25 @@ module.exports = new (class extends controller {
         size: "320x240",
         filename: "thumbnail_%b.png",
       });
+  }
+  //-----------------Add Video-----------------
+  async addVideo(req, res) {
+    let video = new this.Video({
+      writer: req.body.writer,
+      title: req.body.title,
+      description: req.body.description,
+      Path: req.body.Path,
+      category: req.body.category,
+      duration: req.body.duration,
+      thumbnail: req.body.thumbnail,
+    });
+    await video.save();
+
+    this.response({
+      res,
+      code: 201,
+      isSuccess: true,
+      message: "ویدئو با موفقیت ثبت شد",
+    });
   }
 })();

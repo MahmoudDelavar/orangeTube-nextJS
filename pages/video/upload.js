@@ -14,7 +14,8 @@ import axios from "axios";
 import { dev_phase } from "../../next.config";
 import Image from "next/image";
 import Link from "../../components/util/views/costumLink";
-
+import AuthAlerts from "../../components/util/views/auth-alerts";
+import * as yup from "yup";
 //===========================================
 const Upload = () => {
   //-----------------states and initial variables-----------------
@@ -23,6 +24,9 @@ const Upload = () => {
   const [videoName, setVideoName] = useState("");
   const [duration, setDuration] = useState("");
   const [thumbnail, setThumbnail] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
+  const [validationErr, setValidationErr] = useState([]);
+
   const baseUrl = dev_phase.fechUrl;
 
   const user = useSelector((state) => state.user.userInfo);
@@ -63,27 +67,60 @@ const Upload = () => {
       .catch((err) => console.log(err));
   };
 
+  //-------validation video info (fom inputs)-------
+  let schema = yup.object().shape({
+    title: yup.string().required("عتوان ویدئو را وارد کنید "),
+    description: yup.string().required("توضیح مختصری درباره ویدئو بنویسید"),
+    thumbnail: yup.string().required("هیچ ویدئویی بارگزاری نکرده اید "),
+  });
+
+  const validate = async (videoInfo) => {
+    try {
+      const result = await schema.validate(videoInfo, { abortEarly: false });
+      setValidationErr([]);
+      return result;
+    } catch (err) {
+      setValidationErr(err.errors);
+    }
+  };
   //-----------Handle submit Form (save video)-----------
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = new FormData(e.target);
-    const writer = user;
-    const titiel = form.get("title");
+    const writer = user.userName;
+    const title = form.get("title");
     const description = form.get("description");
     const category = form.get("category");
-    const thubnail = form.get("thubnail");
 
     const videoInfo = {
-      writer,
-      titiel,
+      writer: user.id,
+      title,
       description,
       category,
-      videoPath,
-      thubnail,
+      Path: videoPath,
+      duration,
+      thumbnail,
     };
-    console.log("videoInfo", videoInfo);
+
+    let url = `${baseUrl}/api/video/addVideo`;
+
+    const result = await validate(videoInfo);
+    if (result) {
+      axios
+        .post(url, videoInfo)
+        .then((res) => {
+          setSuccessMsg(res.data.message);
+          setTimeout(() => {
+            window.location = "/video/upload";
+          }, 2000);
+        })
+        .catch((err) => console.log(err));
+    } else {
+      console.log("in else ");
+    }
   };
 
+  //-------redirect to Login page (if....)-------
   if (!user.userName) {
     return (
       <>
@@ -96,14 +133,13 @@ const Upload = () => {
   return (
     <>
       <Row>
+        {/* --------------alert box-------------- */}
+        <AuthAlerts successMsg={successMsg} validationErr={validationErr} />
+
         <Col xxl={6} xl={8} lg={10} md={11} className="formBox">
           <Form onSubmit={handleSubmit}>
-            <FormInput type={"text"} name={"title"} text={"عنوان"} />
-            <FormInput
-              type={"textarea"}
-              name={"description"}
-              text={"توضیحات"}
-            />
+            <FormInput type="text" name="title" text="عنوان" />
+            <FormInput type="textarea" name="description" text="توضیحات" />
             <InputGroup>
               <InputGroup.Text htmlFor="category">دسته بندی</InputGroup.Text>
               <Form.Select name="category" id="category">
