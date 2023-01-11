@@ -9,5 +9,6 @@ const router = express.Router();
 router.post("/upload", controller.uploadVideo);
 router.post("/thumbnail", controller.thumbnail);
 router.post("/addVideo", controller.addVideo);
+router.post("/getAllVideos", controller.getAllVideos);
 
 module.exports = router;

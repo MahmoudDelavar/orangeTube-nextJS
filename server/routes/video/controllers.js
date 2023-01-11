@@ -88,6 +88,7 @@ module.exports = new (class extends controller {
         filename: "thumbnail_%b.png",
       });
   }
+
   //-----------------Add Video-----------------
   async addVideo(req, res) {
     let video = new this.Video({
@@ -107,5 +108,29 @@ module.exports = new (class extends controller {
       isSuccess: true,
       message: "ویدئو با موفقیت ثبت شد",
     });
+  }
+
+  //-----------------get All Videos-----------------
+  async getAllVideos(req, res) {
+    const videos = await this.Video.find()
+      .populate("writer")
+      .exec((err, videos) => {
+        if (err) {
+          return this.response({
+            res,
+            code: 404,
+            isSuccess: false,
+            message: "not found any video",
+            data: null,
+          });
+        }
+        this.response({
+          res,
+          code: 200,
+          isSuccess: true,
+          message: "loded All Videos",
+          data: { videos },
+        });
+      });
   }
 })();

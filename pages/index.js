@@ -3,11 +3,20 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import Banner from "../components/util/views/banner";
 import { Container, Row, Col } from "react-bootstrap";
-
+import { dev_phase } from "../next.config";
 import { fechMe } from "../state_management/slices/user-slices/userSlice";
-
+import axios from "axios";
+import VideoCard from "../components/util/videos/videoCard";
+import VideoCaerd from "../components/util/videos/videoCard";
 //==========================================================
-export default function Home() {
+export default function Home(props) {
+  const { videos } = props.loadedVideos;
+  console.log(videos);
+
+  if (!videos) {
+    return <>loading</>;
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -16,15 +25,33 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Container>
-        <Row>
-          <Col>
-            {" "}
-            <h1>home page</h1>
-            <main className={styles.main}></main>{" "}
-            <footer className={styles.footer}></footer>
-          </Col>
+        <Row className="pt-2">
+          {videos.map((video, index) => (
+            <VideoCaerd
+              writer={video.writer.userName}
+              userImage={video.writer.avatarPath}
+              title={video.title}
+              description={video.description}
+              thumbnail={video.thumbnail}
+              duration={video.duration}
+            />
+          ))}
+
+          <footer className={styles.footer}></footer>
         </Row>
       </Container>
     </div>
   );
+}
+
+//=======================server side=======================
+
+export async function getStaticProps() {
+  let url = `${dev_phase.fechUrl}/api/video/getAllVideos`;
+  const response = await axios.post(url);
+  const videos = response.data.data;
+  return {
+    props: { loadedVideos: videos },
+    revalidate: 2,
+  };
 }
