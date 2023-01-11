@@ -1,7 +1,10 @@
 import Image from "next/image";
 import { Col } from "react-bootstrap";
 import styles from "../../../styles/videoCard.module.css";
+import Link from "../views/costumLink";
+
 //============================================
+
 const VideoCard = ({
   writer,
   title,
@@ -9,17 +12,24 @@ const VideoCard = ({
   thumbnail,
   duration,
   userImage,
+  videoId,
 }) => {
+  //-----convert video duration to min:second-----
+  const minutes = Math.floor(duration / 60);
+  const seconds = Math.floor(duration - minutes * 60);
+
   return (
     <>
       <Col className={styles.cardBox}>
-        <Image
-          className={styles.thumbnail}
-          src={thumbnail}
-          width={600}
-          height={400}
-          alt="faild-thumbnail"
-        />
+        <Link href={`/${videoId}`}>
+          <Image
+            className={styles.thumbnail}
+            src={thumbnail}
+            width={600}
+            height={400}
+            alt="faild-thumbnail"
+          />
+        </Link>
 
         <Image
           className={styles.userImage}
@@ -32,7 +42,7 @@ const VideoCard = ({
 
         <p className={styles.title}>{title}</p>
         <p className={styles.description}>{description}</p>
-        <span className={styles.duration}>{duration}</span>
+        <span className={styles.duration}>{`${minutes}:${seconds}`}</span>
       </Col>
     </>
   );

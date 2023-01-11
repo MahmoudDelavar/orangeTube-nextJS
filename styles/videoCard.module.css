@@ -1,19 +1,21 @@
 .cardBox {
   direction: rtl;
-  /* background-color: aquamarine; */
-  margin-bottom: 5px;
+  margin: 3px;
+  padding: 5px;
+  border-radius: 10px;
+  margin: auto;
 }
 .thumbnail {
-  width: 15rem;
+  width: 13rem;
   height: 8rem;
   display: block;
-  margin-bottom: 3px;
+  border-radius: 10px;
 }
 .userImage {
   border-radius: 50%;
   width: 2.5rem;
   height: 2.5rem;
-  margin-left: 5px;
+  margin: 5px 10px 0px 5px;
 }
 .Writer {
   font-size: 1.1rem;
@@ -22,12 +24,12 @@
 .title {
   font-size: 1.3rem;
   font-weight: 600;
-  padding-right: 15px;
+  padding-right: 20px;
   margin: 0;
 }
 .description {
   font-size: 1rem;
-  padding-right: 5px;
+  padding-right: 20px;
   margin: 0;
 }
 .duration {
