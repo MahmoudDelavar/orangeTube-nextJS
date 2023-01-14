@@ -20,29 +20,32 @@ const VideoCard = ({
 
   return (
     <>
-      <Col className={styles.cardBox}>
-        <Link href={`/${videoId}`}>
+      <Col>
+        <div className={styles.cardBox}>
+          <span className={styles.duration}>{`${minutes}:${seconds}`}</span>
+
+          <Link href={`/video/${videoId}`}>
+            <Image
+              className={styles.thumbnail}
+              src={thumbnail}
+              width={600}
+              height={400}
+              alt="faild-thumbnail"
+            />
+          </Link>
+          <br />
           <Image
-            className={styles.thumbnail}
-            src={thumbnail}
-            width={600}
-            height={400}
-            alt="faild-thumbnail"
+            className={styles.userImage}
+            src={userImage}
+            width={300}
+            height={300}
+            alt="faild-avatar"
           />
-        </Link>
+          <span className={styles.Writer}>{writer}</span>
 
-        <Image
-          className={styles.userImage}
-          src={userImage}
-          width={300}
-          height={300}
-          alt="faild-avatar"
-        />
-        <span className={styles.Writer}>{writer}</span>
-
-        <p className={styles.title}>{title}</p>
-        <p className={styles.description}>{description}</p>
-        <span className={styles.duration}>{`${minutes}:${seconds}`}</span>
+          <p className={styles.title}>{title}</p>
+          <p className={styles.description}>{description}</p>
+        </div>
       </Col>
     </>
   );

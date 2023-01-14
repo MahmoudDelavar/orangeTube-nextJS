@@ -97,9 +97,10 @@ const Upload = () => {
       title,
       description,
       category,
-      Path: videoPath,
+      path: videoPath,
       duration,
       thumbnail,
+      fileName: videoName,
     };
 
     let url = `${baseUrl}/api/video/addVideo`;

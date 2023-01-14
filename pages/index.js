@@ -7,7 +7,8 @@ import { dev_phase } from "../next.config";
 import { fechMe } from "../state_management/slices/user-slices/userSlice";
 import axios from "axios";
 import VideoCard from "../components/util/videos/videoCard";
-import VideoCaerd from "../components/util/videos/videoCard";
+import { getAllVideos } from "../helper/videoFetchig";
+
 //==========================================================
 export default function Home(props) {
   //----------initional data and states----------
@@ -27,7 +28,7 @@ export default function Home(props) {
       <Container fluid>
         <Row className="pt-2 justify-content-center ">
           {videos.map((video, index) => (
-            <VideoCaerd
+            <VideoCard
               writer={video.writer.userName}
               userImage={video.writer.avatarPath}
               title={video.title}
@@ -48,9 +49,7 @@ export default function Home(props) {
 //=======================server side=======================
 
 export async function getStaticProps() {
-  let url = `${dev_phase.fechUrl}/api/video/getAllVideos`;
-  const response = await axios.post(url);
-  const videos = response.data.data;
+  const videos = await getAllVideos();
   return {
     props: { loadedVideos: videos },
     revalidate: 2,

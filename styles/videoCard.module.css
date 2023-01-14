@@ -1,43 +1,46 @@
 .cardBox {
   direction: rtl;
-  margin: 3px;
-  padding: 5px;
   border-radius: 10px;
   margin: auto;
+  max-width: 10rem;
+  height: 15rem;
+  overflow: hidden;
 }
+
 .thumbnail {
-  width: 13rem;
-  height: 8rem;
-  display: block;
+  width: 10rem;
+  height: 7rem;
   border-radius: 10px;
 }
 .userImage {
   border-radius: 50%;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2rem;
+  height: 2rem;
   margin: 5px 10px 0px 5px;
 }
 .Writer {
-  font-size: 1.1rem;
-  font-weight: 500;
+  font-size: 0.8rem;
+  font-weight: 600;
 }
 .title {
-  font-size: 1.3rem;
+  font-size: 1rem;
   font-weight: 600;
   padding-right: 20px;
   margin: 0;
 }
 .description {
-  font-size: 1rem;
+  font-size: 0.8rem;
   padding-right: 20px;
   margin: 0;
+  font-weight: 500;
+  text-align: justify;
 }
 .duration {
   font-size: 0.8rem;
   font-weight: 600;
   position: relative;
-  top: -130px;
-  right: 5px;
+  top: 110px;
+  right: 8px;
   background-color: rgba(0, 0, 0, 0.726);
   border-radius: 18px;
   padding: 3px;

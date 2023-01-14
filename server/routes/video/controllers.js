@@ -95,10 +95,11 @@ module.exports = new (class extends controller {
       writer: req.body.writer,
       title: req.body.title,
       description: req.body.description,
-      Path: req.body.Path,
+      path: req.body.path,
       category: req.body.category,
       duration: req.body.duration,
       thumbnail: req.body.thumbnail,
+      fileName: req.body.fileName,
     });
     await video.save();
 

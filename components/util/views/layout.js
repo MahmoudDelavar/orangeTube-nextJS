@@ -12,7 +12,7 @@ const Layout = ({ children }) => {
           <Col xxl={12} xl={12} lg={12} md={12}>
             <Navbar />
           </Col>
-          <Col xxl={9} xl={9} lg={10} md={11}>
+          <Col>
             <main>{children}</main>
           </Col>
         </Row>

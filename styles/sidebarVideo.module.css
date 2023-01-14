@@ -1,0 +1,71 @@
+.videoPlayer {
+  width: 100%;
+  height: 400px;
+  margin-top: 5px;
+}
+.otheVideos {
+  background-color: #f0e1cb;
+  border: 1px solid #e7b76f;
+  font-weight: 500;
+  border-radius: 15px;
+  margin: 5px 0 3px 0;
+}
+
+.sidebarBox {
+  /* background-color: rgba(119, 115, 110, 0.877); */
+  height: 600px;
+  overflow-y: scroll;
+  padding-top: 8px;
+}
+
+.Box {
+  direction: rtl;
+  border-radius: 10px;
+  margin: auto;
+  max-width: 15rem;
+  height: 6rem;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  margin-bottom: 15px;
+  /* background-color: #e7b76f; */
+}
+
+.infoBox {
+  width: 40%;
+  padding-top: 10px;
+  text-align: right;
+}
+
+.thumbnailBox {
+  margin-left: 8px;
+  width: 60%;
+}
+.thumbnail {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+
+.title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+}
+.description {
+  font-size: 0.7rem;
+  font-weight: 500;
+  margin: 0;
+}
+.duration {
+  font-size: 0.6rem;
+  font-weight: 600;
+  position: relative;
+  top: -15px;
+  right: -120px;
+  background-color: rgba(0, 0, 0, 0.726);
+  border-radius: 18px;
+  padding: 3px;
+  margin: 0;
+  color: antiquewhite;
+}
