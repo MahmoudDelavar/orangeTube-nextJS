@@ -1,9 +1,9 @@
 import { Container, Row, Col } from "react-bootstrap";
-import { getAllVideos, getVideoById } from "../../helper/videoFetchig";
-import { dev_phase } from "../../next.config";
-import styles from "../../styles/videoPlay.module.css";
-import sidebarStyles from "../../styles/sidebarVideo.module.css";
+import { getAllVideos, getVideoById } from "../../fetching/videoFetchig";
+import styles from "../../styles/sidebarVideo.module.css";
 import SidebarVideo from "../../components/util/videos/sidebar-video";
+import Subscribe from "../../components/util/videos/subscribe";
+
 //===========================================
 const VideoByID = (props) => {
   //--------------------
@@ -18,16 +18,17 @@ const VideoByID = (props) => {
         <Row className="text-center">
           <Col lg={9} className="bg-green">
             <video
-              className={sidebarStyles.videoPlayer}
+              className={styles.videoPlayer}
               controls
               src={`/uploads/videos/${selectedVideo.fileName}`}
             ></video>
+            <Subscribe />
           </Col>
           <Col lg={3} className="bg-yellow">
-            <p className={sidebarStyles.otheVideos}>سایر ویدئو ها </p>
+            <p className={styles.otheVideos}>سایر ویدئو ها </p>
             <Row>
               <Col>
-                <div className={sidebarStyles.sidebarBox}>
+                <div className={styles.sidebarBox}>
                   {allVideos.map((video, index) => (
                     <SidebarVideo
                       key={index}
@@ -56,10 +57,6 @@ export async function getStaticProps(context) {
   const videoId = params.v_id;
   const { videos } = await getAllVideos();
   const videoByID = await videos.find((video) => video._id == videoId);
-
-  {
-    (" ");
-  }
 
   return {
     props: { allVideos: videos, selectedVideo: videoByID },

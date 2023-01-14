@@ -11,7 +11,7 @@ import FormInput from "../../components/util/inputs/form-input";
 import { AiOutlineVideoCameraAdd, AiFillPicture } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { dev_phase } from "../../next.config";
+import { fetchUrl } from "../../next.config";
 import Image from "next/image";
 import Link from "../../components/util/views/costumLink";
 import AuthAlerts from "../../components/util/views/auth-alerts";
@@ -27,8 +27,6 @@ const Upload = () => {
   const [successMsg, setSuccessMsg] = useState("");
   const [validationErr, setValidationErr] = useState([]);
 
-  const baseUrl = dev_phase.fechUrl;
-
   const user = useSelector((state) => state.user.userInfo);
 
   //------------load video and gnerate thumbnail------------
@@ -41,7 +39,7 @@ const Upload = () => {
       },
     };
     form.append("file", e.target.files[0]);
-    let url = `${baseUrl}/api/video/upload`;
+    let url = `${fetchUrl}/api/video/upload`;
     axios
       .post(url, form, config)
       .then((res) => {
@@ -55,7 +53,7 @@ const Upload = () => {
 
         //generate thumbnail  thumbnailFilePath, fileDuration
 
-        let url = `${baseUrl}/api/video/thumbnail`;
+        let url = `${fetchUrl}/api/video/thumbnail`;
         axios
           .post(url, variable)
           .then((res) => {
@@ -103,7 +101,7 @@ const Upload = () => {
       fileName: videoName,
     };
 
-    let url = `${baseUrl}/api/video/addVideo`;
+    let url = `${fetchUrl}/api/video/addVideo`;
 
     const result = await validate(videoInfo);
     if (result) {
@@ -116,8 +114,6 @@ const Upload = () => {
           }, 2000);
         })
         .catch((err) => console.log(err));
-    } else {
-      console.log("in else ");
     }
   };
 

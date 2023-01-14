@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import FormInput from "../../components/util/inputs/form-input";
 import styles from "../../styles/register.module.css";
-import { dev_phase } from "../../next.config";
 import * as yup from "yup";
 import {
   BsFillPersonFill,
@@ -17,10 +16,8 @@ import AuthAlerts from "../../components/util/views/auth-alerts";
 
 const Login = () => {
   //-----------------states and initial variables-----------------
-  const baseUrl = dev_phase.fechUrl;
   const dispatch = useDispatch();
   const { successMsg, errMsg } = useSelector((state) => state.login);
-
   const [validationErr, setValidationErr] = useState([]);
 
   //-----------validation inputs-----------

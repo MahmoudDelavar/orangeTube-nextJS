@@ -8,7 +8,7 @@ import {
 import { AiFillPicture, AiFillPlusSquare } from "react-icons/ai";
 import FormInput from "../../components/util/inputs/form-input";
 import { useState } from "react";
-import { dev_phase } from "../../next.config";
+import { fetchUrl } from "../../next.config";
 import axios from "axios";
 import Image from "next/image";
 import * as yup from "yup";
@@ -20,7 +20,6 @@ import AuthAlerts from "../../components/util/views/auth-alerts";
 
 const Register = () => {
   //-----------------states and initial variables-----------------
-  const baseUrl = dev_phase.fechUrl;
   const dispatch = useDispatch();
   const { successMsg, errMsg } = useSelector((state) => state.register);
 
@@ -90,7 +89,7 @@ const Register = () => {
     form.append("file", e.target.files[0]);
 
     axios
-      .post(`${baseUrl}/api/auth/loadAvatar`, form, config)
+      .post(`${fetchUrl}/api/auth/loadAvatar`, form, config)
       .then((res) => {
         let avatarPath = `/uploads/userAvatar/${res.data.data.fileName}`;
         setAvatarPath(avatarPath);

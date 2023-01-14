@@ -1,13 +1,9 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import Banner from "../components/util/views/banner";
 import { Container, Row, Col } from "react-bootstrap";
-import { dev_phase } from "../next.config";
-import { fechMe } from "../state_management/slices/user-slices/userSlice";
-import axios from "axios";
 import VideoCard from "../components/util/videos/videoCard";
-import { getAllVideos } from "../helper/videoFetchig";
+import { getAllVideos } from "../fetching/videoFetchig";
 
 //==========================================================
 export default function Home(props) {

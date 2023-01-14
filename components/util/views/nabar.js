@@ -7,9 +7,9 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
-import { fechMe } from "../../../state_management/slices/user-slices/userSlice";
-import { Col } from "react-bootstrap";
+import { fechMe } from "../../../state_management/slices/user-slices/isLoggined";
+import { Col, Row } from "react-bootstrap";
+
 //========================================================
 
 function Navigationbar() {
@@ -21,56 +21,80 @@ function Navigationbar() {
   const user = useSelector((state) => state.user.userInfo);
 
   return (
-    <Navbar
-      bg="dark"
-      variant="dark"
-      expand="md"
-      className="text-danger"
-      style={{ marginTop: "9vh" }}
-    >
-      <Container fluid>
+    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+      <Container>
         <Navbar.Brand href="/">
-          <Image src="/logo64.png" alt="faild-logo" width={40} height={40} />
-          <span style={{ color: "orange" }}> oreangetube.ir</span>
-          <span> {"  "}</span>
-          {user.userName ? (
-            <>
+          <Row>
+            <Col>
               <Image
-                src={user.avatarPath}
+                src="/logo64.png"
                 alt="faild-logo"
-                width={30}
-                height={30}
+                width={40}
+                height={40}
               />
-              <span style={{ color: "green" }}> {user.userName}</span>
-            </>
-          ) : (
-            <>
-              <span>کاربر مهمان</span>
-            </>
-          )}
+              <span style={{ color: "orange" }}> oreangetube.ir</span>
+            </Col>
+            <Col>
+              {user.userName ? (
+                <>
+                  <Image
+                    src={user.avatarPath}
+                    alt="faild-logo"
+                    width={30}
+                    height={30}
+                    style={{ borderRadius: "50%" }}
+                  />
+                  <span
+                    style={{
+                      fontSize: "1rem",
+                      fontWeight: "500",
+                      color: "green",
+                    }}
+                  >
+                    {" "}
+                    {user.userName}
+                  </span>
+                </>
+              ) : (
+                <>
+                  <span
+                    style={{
+                      fontSize: "1rem",
+                      fontWeight: "500",
+                      color: "green",
+                    }}
+                  >
+                    کاربر مهمان
+                  </span>
+                </>
+              )}
+            </Col>
+          </Row>
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="titile" />
-        <Navbar.Collapse id="titile">
-          <Nav className="me-auto " style={{ maxHeight: "100px" }} navbarScroll>
-            <Link href="/">videos</Link>
-            <Link href="/sunscribtions">subscibetions</Link>
-            <Link href="/video/upload">upload</Link>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="me-auto">
+            <Link href="/">ویدئوها</Link>
+            <Link href="/sunscribtions">اشتراک ها</Link>
+            <Link href="/video/upload">آپلود </Link>
 
             {user.userName ? (
-              <Link href="/auth/logout">logout</Link>
+              <Link href="/auth/logout">خروج</Link>
             ) : (
-              <Link href="/auth/login">login</Link>
+              <Link href="/auth/login">ورود</Link>
             )}
           </Nav>
-          <Form className="d-flex">
-            <Form.Control
-              type="search"
-              placeholder="Search"
-              className="me-4"
-              aria-label="Search"
-            />
-            <Button variant="outline-danger">Search</Button>
-          </Form>
+          <Nav>
+            <Form className="d-flex">
+              <Form.Control
+                type="search"
+                placeholder="دنبال چی میگردی"
+                className="me-2"
+                aria-label="Search"
+              />
+              <Button variant="outline-success">پیداکن</Button>
+            </Form>
+          </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
@@ -78,3 +102,4 @@ function Navigationbar() {
 }
 
 export default Navigationbar;
+//---------------------------------------------------------------

@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import registerReducer from "../state_management/slices/user-slices/register";
 import loginReducer from "../state_management/slices/user-slices/login";
-import userReducer from "../state_management/slices/user-slices/userSlice";
+import userReducer from "./slices/user-slices/isLoggined";
 const store = configureStore({
   reducer: {
     register: registerReducer,

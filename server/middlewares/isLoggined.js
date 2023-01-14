@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { dev_phase } = require("../.../../../next.config");
+const { jwt_key } = require("../.../../../next.config");
 const User = require("../models/user");
 //=================================================
 async function isLoggined(req, res, next) {
@@ -12,7 +12,7 @@ async function isLoggined(req, res, next) {
       message: "access denied",
     });
     try {
-      const decoded = jwt.verify(token, dev_phase.jwt_key);
+      const decoded = jwt.verify(token, jwt_key);
       const user = await User.findById(decoded._id);
       req.user = user;
       next();

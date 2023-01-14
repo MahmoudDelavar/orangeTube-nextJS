@@ -2,7 +2,7 @@ const { validationResult } = require("express-validator");
 const controller = require("../controller");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { dev_phase } = require("../../../next.config");
+const { jwt_key } = require("../../../next.config");
 const multer = require("multer");
 const { userInfo } = require("os");
 const debug = require("debug")("app:main");
@@ -55,7 +55,7 @@ module.exports = new (class extends controller {
     user.password = await bcrypt.hash(user.password, salt);
 
     await user.save();
-    const token = jwt.sign({ _id: user._id }, dev_phase.jwt_key);
+    const token = jwt.sign({ _id: user._id }, jwt_key);
     this.response({
       res,
       code: 200,
@@ -86,7 +86,7 @@ module.exports = new (class extends controller {
       });
     }
 
-    const token = jwt.sign({ _id: user._id }, dev_phase.jwt_key);
+    const token = jwt.sign({ _id: user._id }, jwt_key);
 
     this.response({
       res,
@@ -121,7 +121,7 @@ module.exports = new (class extends controller {
     });
   }
 
-  //------------------------- me -------------------------
+  //----------------- check user is loggined or not -----------------
   async me(req, res) {
     const token = req.body.token;
     if (!token) {
@@ -133,7 +133,7 @@ module.exports = new (class extends controller {
       });
     }
     try {
-      const decoded = jwt.verify(token, dev_phase.jwt_key);
+      const decoded = jwt.verify(token, jwt_key);
       const user = await this.User.findById(decoded._id);
       const userInfo = {
         id: user._id,

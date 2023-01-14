@@ -9,14 +9,15 @@ const mongoose = require("mongoose");
 const router = require("./routes");
 //=================================================
 
-//----------------Logs config----------------
+//-------------------Logs config-------------------
 const debug = require("debug")("app:main");
 const dbDebug = require("debug")("app:database");
 const connDebug = require("debug")("app:connection");
 const fechDebug = require("debug")("app:fech-data");
 //=================================================
-const { dev_phase, pro_phase } = require("../next.config");
+const { port, db_Address } = require("../next.config");
 server.use(express.json({ extended: true }));
+//=================================================
 
 server.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -37,14 +38,14 @@ app
 
     //---------connecting to database---------
     mongoose
-      .connect("mongodb://127.0.0.1/orangetube2")
+      .connect(db_Address)
       .then(() => dbDebug("Connected to Database"))
       .catch((err) => dbDebug("Cant be Connetc:", err));
 
     //--------------runing serve--------------
-    server.listen(dev_phase.port, (err) => {
+    server.listen(port, (err) => {
       if (err) throw err;
-      connDebug(` > Server Ready on http://localhost:${dev_phase.port}`);
+      connDebug(` > Server Ready on http://localhost:${port}`);
     });
   })
   .catch((ex) => {

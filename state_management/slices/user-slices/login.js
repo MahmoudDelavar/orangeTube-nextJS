@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import { dev_phase } from "../../../next.config";
+import { loginUser } from "../../../fetching/userFetching";
 //===============================================
 const initialState = {
   user: {},
@@ -8,11 +7,10 @@ const initialState = {
   successMsg: null,
   errMsg: null,
 };
-//-----------------------------------------------
 
+//-----------------------------------------------
 export const fechLogin = createAsyncThunk("login/api", async (userInfo) => {
-  let url = `${dev_phase.fechUrl}/api/auth/login`;
-  const response = await axios.post(url, userInfo);
+  const response = await loginUser(userInfo);
 
   setTimeout(() => {
     window.location = "/";
@@ -20,6 +18,7 @@ export const fechLogin = createAsyncThunk("login/api", async (userInfo) => {
 
   return response;
 });
+
 //-----------------------------------------------
 const loginSlice = createSlice({
   name: "login",

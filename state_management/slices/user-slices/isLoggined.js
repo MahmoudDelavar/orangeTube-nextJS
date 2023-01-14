@@ -1,10 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import { dev_phase } from "../../../next.config";
-
+import { isLoggined } from "../../../fetching/userFetching";
 //==============================================================
-
-//----------------- initial data-----------------
 
 const initialState = {
   userInfo: {},
@@ -12,12 +8,9 @@ const initialState = {
   message: null,
 };
 
-const baseUrl = dev_phase.fechUrl;
-
 //------------------------------------------------
 export const fechMe = createAsyncThunk("user/fech", async ({ token }) => {
-  let url = `${baseUrl}/api/auth/me`;
-  const response = await axios.post(url, { token });
+  const response = await isLoggined(token);
 
   return response;
 });
