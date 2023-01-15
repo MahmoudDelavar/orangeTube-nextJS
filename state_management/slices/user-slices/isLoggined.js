@@ -11,7 +11,6 @@ const initialState = {
 //------------------------------------------------
 export const fechMe = createAsyncThunk("user/fech", async ({ token }) => {
   const response = await isLoggined(token);
-
   return response;
 });
 

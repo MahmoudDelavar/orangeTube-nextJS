@@ -3,12 +3,14 @@ import { getAllVideos, getVideoById } from "../../fetching/videoFetchig";
 import styles from "../../styles/sidebarVideo.module.css";
 import SidebarVideo from "../../components/util/videos/sidebar-video";
 import Subscribe from "../../components/util/videos/subscribe";
+import { useSelector } from "react-redux";
 
 //===========================================
 const VideoByID = (props) => {
-  //--------------------
+  //-----------------initional data and state-----------------
   const { selectedVideo, allVideos } = props;
-
+  const userFrom = useSelector((state) => state.user.userInfo.id);
+  //----------------------------------------------------------
   if (!selectedVideo) {
     return <>loading...</>;
   }
@@ -16,14 +18,19 @@ const VideoByID = (props) => {
     <>
       <Container fluid>
         <Row className="text-center">
+          {/* -----------------video palayer----------------- */}
           <Col lg={9} className="bg-green">
             <video
               className={styles.videoPlayer}
               controls
               src={`/uploads/videos/${selectedVideo.fileName}`}
             ></video>
-            <Subscribe />
+
+            {/* ------------comments-subscribe------------ */}
+            <Subscribe userTo={selectedVideo.writer} userFrom={userFrom} />
           </Col>
+
+          {/* ------------------sidebar------------------ */}
           <Col lg={3} className="bg-yellow">
             <p className={styles.otheVideos}>سایر ویدئو ها </p>
             <Row>

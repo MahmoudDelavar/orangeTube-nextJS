@@ -2,6 +2,7 @@ const autoBind = require("auto-bind");
 const { validationResult } = require("express-validator");
 const user = require("./../models/user");
 const video = require("./../models/video");
+const subscribe = require("./../models/subscribe");
 //====================================
 
 module.exports = class {
@@ -9,6 +10,7 @@ module.exports = class {
     autoBind(this);
     this.User = user;
     this.Video = video;
+    this.Subscribe = subscribe;
   }
 
   validation(req, res, next) {
