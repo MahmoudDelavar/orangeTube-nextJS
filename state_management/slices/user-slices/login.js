@@ -11,7 +11,6 @@ const initialState = {
 //-----------------------------------------------
 export const fechLogin = createAsyncThunk("login/api", async (userInfo) => {
   const response = await loginUser(userInfo);
-
   setTimeout(() => {
     window.location = "/";
   }, 2000);
@@ -33,6 +32,7 @@ const loginSlice = createSlice({
       state.successMsg = action.payload.data.message;
       state.errMsg = null;
       localStorage.setItem("token", action.payload.data.data.token);
+      localStorage.setItem("userID", action.payload.data.data.user._id);
     },
     [fechLogin.rejected]: (state) => {
       state.isLoading = false;

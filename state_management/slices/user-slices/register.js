@@ -36,6 +36,7 @@ const registerSlice = createSlice({
       state.successMsg = action.payload.data.message;
       state.errMsg = null;
       localStorage.setItem("token", action.payload.data.data.token);
+      localStorage.setItem("userID", action.payload.data.data.user._id);
     },
     [fechRegister.rejected]: (state) => {
       state.isLoading = false;

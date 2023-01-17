@@ -18,7 +18,7 @@ import AuthAlerts from "../../components/util/views/auth-alerts";
 import * as yup from "yup";
 //===========================================
 const Upload = () => {
-  //-----------------states and initial variables-----------------
+  //--------------states and initial variables--------------
   const [isLoading, setIsLoading] = useState(false);
   const [videoPath, setVideoPath] = useState("");
   const [videoName, setVideoName] = useState("");

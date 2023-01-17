@@ -1,5 +1,4 @@
 const expressValidator = require("express-validator");
-const { login } = require("./controllers");
 //====================================
 
 const check = expressValidator.check;

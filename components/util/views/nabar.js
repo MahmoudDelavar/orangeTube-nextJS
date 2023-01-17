@@ -75,7 +75,7 @@ function Navigationbar() {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
             <Link href="/">ویدئوها</Link>
-            <Link href="/sunscribtions">اشتراک ها</Link>
+            <Link href="/video/subscribtion">اشتراک ها</Link>
             <Link href="/video/upload">آپلود </Link>
 
             {user.userName ? (

@@ -25,6 +25,7 @@ export default function Home(props) {
         <Row className="pt-2 justify-content-center ">
           {videos.map((video, index) => (
             <VideoCard
+              key={index}
               writer={video.writer.userName}
               userImage={video.writer.avatarPath}
               title={video.title}
