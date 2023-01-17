@@ -1,10 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   subscribeCounter,
   isSubscribe,
   subscribe,
   unSubscribe,
 } from "../../../fetching/subscribe";
+import Button from "react-bootstrap/Button";
+import Overlay from "react-bootstrap/Overlay";
+import Tooltip from "react-bootstrap/Tooltip";
+import { useSelector } from "react-redux";
 
 //===============================================
 const Subscribe = (props) => {
@@ -14,6 +18,27 @@ const Subscribe = (props) => {
 
   const [subscribeNumber, setSubscribeNumber] = useState(0);
   const [isSubscribed, setIsSubscribed] = useState(false);
+
+  const [show, setShow] = useState(false);
+  const target = useRef(null);
+
+  const isLoggined = useSelector((state) => state.user.isLoggined);
+  //----------------------------------------------
+  useEffect(() => {
+    // ---calculate the number of subscribtions---
+    subscribeCounter(userTo)
+      .then((count) => {
+        setSubscribeNumber(count);
+      })
+      .catch((err) => console.log("subscribeCounter ERR:", err));
+
+    // ---Check subscribed or not---
+    isSubscribe({ userTo, userFrom })
+      .then((isSubscribe) => {
+        setIsSubscribed(isSubscribe);
+      })
+      .catch((err) => console.log("isSubscribe ERR", err));
+  });
 
   //----------handle onSubscribe btn----------
   const onSubscribe = () => {
@@ -35,26 +60,39 @@ const Subscribe = (props) => {
         .catch((err) => console.log("subscribe ERR", err));
     }
   };
-  //----------------------------------------------
-  useEffect(() => {
-    // ---calculate the number of subscribtions---
-    subscribeCounter(userTo)
-      .then((count) => {
-        setSubscribeNumber(count);
-      })
-      .catch((err) => console.log("subscribeCounter ERR:", err));
 
-    // ---Check subscribed or not---
-    isSubscribe({ userTo, userFrom })
-      .then((isSubscribe) => {
-        setIsSubscribed(isSubscribe);
-      })
-      .catch((err) => console.log("isSubscribe ERR", err));
-  }, []);
-
+  //---------------------------------
+  if (!isLoggined)
+    return (
+      <>
+        <Overlay target={target.current} show={show} placement="right">
+          {(props) => (
+            <Tooltip id="overlay-example" {...props}>
+              لطفا ابتدار وارد وارد شوید
+            </Tooltip>
+          )}
+        </Overlay>
+        <Button
+          onClick={() => setShow(!show)}
+          ref={target}
+          style={{
+            fontSize: "1.2rem",
+            fontWeight: "500",
+            background: "#CC0000",
+            padding: "8px 10px ",
+            border: " #CC0000",
+            borderRadius: "5px  ",
+            color: "#AAAAAA",
+          }}
+        >
+          {subscribeNumber} SUBSCRIBE
+        </Button>
+      </>
+    );
+  //---------------------------------
   return (
     <>
-      <button
+      <Button
         onClick={onSubscribe}
         style={{
           fontSize: "1.2rem",
@@ -68,8 +106,8 @@ const Subscribe = (props) => {
           color: `${isSubscribed ? "#CC0000" : "#AAAAAA"}`,
         }}
       >
-        {subscribeNumber} {isSubscribed ? "subscribed" : "subscribe"}
-      </button>
+        {subscribeNumber} {isSubscribed ? "SUBSCRIBED" : "SUBSCRIBE"}
+      </Button>
     </>
   );
 };

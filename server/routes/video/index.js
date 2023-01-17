@@ -10,5 +10,6 @@ router.post("/upload", controller.uploadVideo);
 router.post("/thumbnail", controller.thumbnail);
 router.post("/addVideo", controller.addVideo);
 router.post("/getAllVideos", controller.getAllVideos);
+router.post("/getSubscribtionVideos", controller.getSubscribtionVideos);
 
 module.exports = router;

@@ -16,3 +16,10 @@ export async function getAllVideos() {
   const videos = response.data.data;
   return videos;
 }
+//---------fetch All Subscribtion Videos---------
+export async function getSubscribtionVideos(userId) {
+  let url = `${fetchUrl}/api/video/getSubscribtionVideos`;
+  const response = await axios.post(url, { userFrom: userId });
+  const videos = response.data.data;
+  return videos;
+}

@@ -10,7 +10,7 @@ const path = require("path");
 // const { ffprobe } = require("fluent-ffmpeg");
 ffmpeg.setFfmpegPath("C:\\ffmpeg\\bin\\ffmpeg.exe");
 ffmpeg.setFfprobePath("C:\\ffmpeg\\bin\\ffprobe.exe");
-//====================================
+//======================================================================
 //-----------------------------multer config-----------------------------
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -36,6 +36,8 @@ const upload = multer({
 //-----------------------------------------------------
 let thumbFliePath = "";
 let fileDuration = "";
+
+//-----------------------------------------------------
 module.exports = new (class extends controller {
   //---------------------load video---------------------
   async uploadVideo(req, res) {
@@ -89,7 +91,7 @@ module.exports = new (class extends controller {
       });
   }
 
-  //-----------------Add Video-----------------
+  //---------------------Add Video---------------------
   async addVideo(req, res) {
     let video = new this.Video({
       writer: req.body.writer,
@@ -133,5 +135,39 @@ module.exports = new (class extends controller {
           data: { videos },
         });
       });
+  }
+
+  //-----------------get All Subscribtion Videos-----------------
+  async getSubscribtionVideos(req, res) {
+    //------find all users I subscribed------
+    const userFrom = req.body.userFrom;
+
+    if (!userFrom) {
+      return this.response({
+        res,
+        code: 400,
+        isSuccess: true,
+        data: null,
+        message: "subscribtions failed",
+      });
+    }
+
+    const subscrebeds = await this.Subscribe.find({ userFrom }).exec();
+
+    let subscribeUse = [];
+    subscrebeds.forEach((u) => subscribeUse.push(u.userTo));
+
+    const videos = await this.Video.find({
+      writer: { $in: subscribeUse },
+    })
+      .populate("writer", "avatarPath userName")
+      .exec();
+    this.response({
+      res,
+      code: 200,
+      isSuccess: true,
+      message: "success",
+      data: videos,
+    });
   }
 })();
