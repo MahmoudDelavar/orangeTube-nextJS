@@ -3,6 +3,7 @@ const { validationResult } = require("express-validator");
 const user = require("./../models/user");
 const video = require("./../models/video");
 const subscribe = require("./../models/subscribe");
+const comment = require("./../models/comment");
 //====================================
 
 module.exports = class {
@@ -11,6 +12,7 @@ module.exports = class {
     this.User = user;
     this.Video = video;
     this.Subscribe = subscribe;
+    this.Comment = comment;
   }
 
   validation(req, res, next) {

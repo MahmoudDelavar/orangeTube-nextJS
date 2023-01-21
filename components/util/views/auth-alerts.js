@@ -5,7 +5,7 @@ const AuthAlerts = ({ successMsg, errMsg, validationErr }) => {
   return (
     <>
       {/*---------validation errors ---------*/}
-      {validationErr.length > 0 && (
+      {validationErr && validationErr.length > 0 && (
         <Alert variant="danger">
           <ul>
             {validationErr.map((err, index) => (

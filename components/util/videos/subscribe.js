@@ -76,10 +76,10 @@ const Subscribe = (props) => {
           onClick={() => setShow(!show)}
           ref={target}
           style={{
-            fontSize: "1.2rem",
+            fontSize: "1rem",
             fontWeight: "500",
             background: "#CC0000",
-            padding: "8px 10px ",
+            padding: "5px 8px ",
             border: " #CC0000",
             borderRadius: "5px  ",
             color: "#AAAAAA",
@@ -95,10 +95,10 @@ const Subscribe = (props) => {
       <Button
         onClick={onSubscribe}
         style={{
-          fontSize: "1.2rem",
+          fontSize: "1rem",
           fontWeight: "500",
           background: `${isSubscribed ? "#AAAAAA" : "#CC0000"}`,
-          padding: "8px 10px ",
+          padding: "5px 8px ",
           border: `${
             isSubscribed ? "1px solid  #CC0000" : "1px solid  #AAAAAA"
           }`,

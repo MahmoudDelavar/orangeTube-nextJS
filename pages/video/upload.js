@@ -136,7 +136,7 @@ const Upload = () => {
         <Col xxl={6} xl={8} lg={10} md={11} className="formBox">
           <Form onSubmit={handleSubmit}>
             <FormInput type="text" name="title" text="عنوان" />
-            <FormInput type="textarea" name="description" text="توضیحات" />
+            <FormInput type="textArea" name="description" text="توضیحات" />
             <InputGroup>
               <InputGroup.Text htmlFor="category">دسته بندی</InputGroup.Text>
               <Form.Select name="category" id="category">

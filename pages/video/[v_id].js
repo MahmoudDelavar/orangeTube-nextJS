@@ -4,13 +4,32 @@ import styles from "../../styles/sidebarVideo.module.css";
 import SidebarVideo from "../../components/util/videos/sidebar-video";
 import Subscribe from "../../components/util/videos/subscribe";
 import { useSelector } from "react-redux";
-
+import Comment from "../../components/util/videos/comment";
+import { useEffect, useState } from "react";
+import { getComments } from "../../fetching/comments";
 //===========================================
 const VideoByID = (props) => {
   //-----------------initional data and state-----------------
-  const { selectedVideo, allVideos } = props;
+  const { selectedVideo, allVideos, videoId } = props;
   const userFrom = useSelector((state) => state.user.userInfo.id);
+  const [commentList, setCommentList] = useState([]);
+
   //----------------------------------------------------------
+  useEffect(() => {
+    getComments(videoId)
+      .then((loadedComments) => {
+        setCommentList(loadedComments);
+      })
+      .catch((err) => console.log(err));
+  });
+  //----------------------------------------------------------
+
+  //-update comment component (send new comment to show in commentList)-
+  const updateComment = (newComment) => {
+    setCommentList(newComment);
+  };
+  //----------------------------------------------------------
+
   if (!selectedVideo) {
     return <>loading...</>;
   }
@@ -28,6 +47,11 @@ const VideoByID = (props) => {
 
             {/* ------------comments-subscribe------------ */}
             <Subscribe userTo={selectedVideo.writer} userFrom={userFrom} />
+            <Comment
+              postId={selectedVideo._id}
+              refreshFunction={updateComment}
+              commentList={commentList}
+            />
           </Col>
 
           {/* ------------------sidebar------------------ */}
@@ -62,11 +86,20 @@ export default VideoByID;
 export async function getStaticProps(context) {
   const { params } = context;
   const videoId = params.v_id;
+  //______Load videos and find selected video_____//
   const { videos } = await getAllVideos();
   const videoByID = await videos.find((video) => video._id == videoId);
 
+  // //______Load this post comments_____//
+  const comments = await getComments(videoId);
+
   return {
-    props: { allVideos: videos, selectedVideo: videoByID },
+    props: {
+      allVideos: videos,
+      selectedVideo: videoByID,
+      videoId,
+      // loadedComments: comments,
+    },
   };
 }
 

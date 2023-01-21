@@ -8,4 +8,4 @@ const subscribeSchema = new mongoose.Schema({
 
 subscribeSchema.plugin(timeStamp);
 
-module.exports = mongoose.model("subscribe", subscribeSchema);
+module.exports = mongoose.model("Subscribe", subscribeSchema);

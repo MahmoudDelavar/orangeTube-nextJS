@@ -1,0 +1,37 @@
+.box {
+  background-color: rgba(80, 80, 80, 0.158);
+  border-radius: 10px;
+  padding: 3px;
+  margin-bottom: 10px;
+}
+.singleCommentBox {
+  text-align: right;
+
+  display: flex;
+}
+.image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.userName {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.text {
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+.replay {
+  font-size: 0.8rem;
+  font-weight: 400;
+  border: 1px solid white;
+  border-radius: 8px;
+  background-color: rgb(212, 212, 212);
+}
+
+.replayBox {
+  background-color: aqua;
+  width: 80%;
+}
