@@ -6,9 +6,10 @@ import Link from "../../components/util/views/costumLink";
 
 //==================================================
 const SubscribtionPage = () => {
+  //----------------initional data and states----------------
   const [videos, setVideos] = useState([]);
   const isLoggined = useSelector((state) => state.user.isLoggined);
-
+  //------------------------------------
   useEffect(() => {
     const userID = localStorage.getItem("userID");
     getSubscribtionVideos(userID)
@@ -19,7 +20,7 @@ const SubscribtionPage = () => {
         console.log(err);
       });
   }, []);
-
+  //----------------------check user loggined or not----------------------
   if (!isLoggined) {
     return (
       <>
@@ -27,6 +28,8 @@ const SubscribtionPage = () => {
       </>
     );
   }
+
+  //----------------------show loading until the information is read----------------------
   if (!videos) {
     return <>loading....</>;
   }

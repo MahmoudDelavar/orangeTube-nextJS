@@ -23,16 +23,18 @@ const VideoCard = ({
       <Col>
         <div className={styles.cardBox}>
           <span className={styles.duration}>{`${minutes}:${seconds}`}</span>
+          {videoId && (
+            <Link href={`/video/${videoId}`}>
+              <Image
+                className={styles.thumbnail}
+                src={thumbnail}
+                width={600}
+                height={400}
+                alt="faild-thumbnail"
+              />
+            </Link>
+          )}
 
-          <Link href={`/video/${videoId}`}>
-            <Image
-              className={styles.thumbnail}
-              src={thumbnail}
-              width={600}
-              height={400}
-              alt="faild-thumbnail"
-            />
-          </Link>
           <br />
           <Image
             className={styles.userImage}

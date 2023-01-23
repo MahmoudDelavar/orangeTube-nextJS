@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 import Comment from "../../components/util/videos/comment";
 import { useEffect, useState } from "react";
 import { getComments } from "../../fetching/comments";
+import LikeAndDislike from "../../components/util/videos/like-dislike";
+
 //===========================================
 const VideoByID = (props) => {
   //-----------------initional data and state-----------------
@@ -46,7 +48,9 @@ const VideoByID = (props) => {
             ></video>
 
             {/* ------------comments-subscribe------------ */}
+            <LikeAndDislike video videoId={selectedVideo._id} />
             <Subscribe userTo={selectedVideo.writer} userFrom={userFrom} />
+
             <Comment
               postId={selectedVideo._id}
               refreshFunction={updateComment}
@@ -90,15 +94,11 @@ export async function getStaticProps(context) {
   const { videos } = await getAllVideos();
   const videoByID = await videos.find((video) => video._id == videoId);
 
-  // //______Load this post comments_____//
-  const comments = await getComments(videoId);
-
   return {
     props: {
       allVideos: videos,
       selectedVideo: videoByID,
       videoId,
-      // loadedComments: comments,
     },
   };
 }

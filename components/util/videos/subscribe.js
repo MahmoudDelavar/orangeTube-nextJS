@@ -76,6 +76,7 @@ const Subscribe = (props) => {
           onClick={() => setShow(!show)}
           ref={target}
           style={{
+            marginRight: "15px",
             fontSize: "1rem",
             fontWeight: "500",
             background: "#CC0000",
@@ -95,6 +96,7 @@ const Subscribe = (props) => {
       <Button
         onClick={onSubscribe}
         style={{
+          marginRight: "15px",
           fontSize: "1rem",
           fontWeight: "500",
           background: `${isSubscribed ? "#AAAAAA" : "#CC0000"}`,

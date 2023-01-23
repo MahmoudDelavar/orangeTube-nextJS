@@ -6,6 +6,7 @@ import { Button, Form } from "react-bootstrap";
 import FormInput from "../inputs/form-input";
 import { saveComment } from "../../../fetching/comments";
 import { useSelector } from "react-redux";
+import LikeAndDislike from "./like-dislike";
 
 //====================================================
 const SingleComment = (props) => {
@@ -34,6 +35,7 @@ const SingleComment = (props) => {
           <br />
         </div>
       </div>
+      <LikeAndDislike comment commentId={props.comment._id} />
     </div>
   );
 };

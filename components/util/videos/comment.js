@@ -9,7 +9,6 @@ import { useState } from "react";
 
 //=========================================================
 
-//---------------------------
 const Comment = (props) => {
   //----------------initional data and states----------------
   const userId = useSelector((state) => state.user.userInfo.id);
@@ -36,9 +35,10 @@ const Comment = (props) => {
       setErrMsg("برای ثبت نظر ، ابتدا وارد حساب کاربری خود شوید ");
     }
   };
+
   return (
     <>
-      {/* -------------commen form------------- */}
+      {/* -------------comment form------------- */}
 
       <p className="mt-5">دیدگاه ها</p>
       {errMsg && <AuthAlerts errMsg={errMsg} />}
@@ -60,7 +60,7 @@ const Comment = (props) => {
 
       <hr />
 
-      {/* -------------commen list ------------- */}
+      {/* -------------comment list ------------- */}
       {props.commentList &&
         props.commentList.map(
           (comment, index) =>

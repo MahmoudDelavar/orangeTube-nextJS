@@ -4,6 +4,8 @@ const user = require("./../models/user");
 const video = require("./../models/video");
 const subscribe = require("./../models/subscribe");
 const comment = require("./../models/comment");
+const like = require("./../models/like");
+const disLike = require("./../models/disLike");
 //====================================
 
 module.exports = class {
@@ -13,6 +15,8 @@ module.exports = class {
     this.Video = video;
     this.Subscribe = subscribe;
     this.Comment = comment;
+    this.Like = like;
+    this.DisLike = disLike;
   }
 
   validation(req, res, next) {
